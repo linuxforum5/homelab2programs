@@ -1,0 +1,1 @@
+2025 DATA 25,23,17,"[ĞP","VÒNÑ","PÓSÍOÍ","PÍRmMmMÎMÍMÍMÍ","PÍNĞMmNÍQÍ","PÍRmMÍMÍMÎÍÍ","PÎmĞmMmMmMÎÍÍ","PÍQÍPĞÏ","PÍMmOÒNÍÍÍ","ÒoÎRíÍÍÍ","ÍRÍPÍmÍmÏMÍ","ÍMĞMÍqPÍMÍ","ÍMÍPmQÍOÍMÍ","ÍMÍOÎMÎQÏÍ","ÍMÒmÒNÒ","ÍTÍPÍNÍQ","ÖPĞQ"

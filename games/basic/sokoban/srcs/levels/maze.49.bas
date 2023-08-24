@@ -1,0 +1,1 @@
+2049 DATA 49,19,16,"RØM","QÎPÍOÍM","PÎ­MmPmMÍM","OÎ­ÍMÍMÍmMÎM","OÍ­ÍMÍMÍMmNÍM","ĞÍNÍPÍMÍM","ÍNÎMÍVÍM","ÍMímMmMÏNÍMÍMÎM","ÍMmOmOÍMÍOÍN","ÏnOÍMÍMÍMÍMÍN","NÍOmOÍMÍMÑ","NÍMmÍMÑRÍ","NÍmOÍOÍOÍNÍ","NÍNÏOÎQÍ","NÍNÍRÍPÎ","NĞRÒM"

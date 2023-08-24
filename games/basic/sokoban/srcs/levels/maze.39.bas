@@ -1,0 +1,1 @@
+2039 DATA 39,23,18,"ZÏR","YÎÏP","YÍÍP","MÙÍP","ÎOÎQÎÑ","ÍNnÎNmMíÎPÍ","ÍRnMmÍNÍOÍ","ÍNmMÎMnMÍMÍÍNÎ","ÍNmMÎMmNÍMÎMÏNÍM","ÎMÑMÏUÍM","ÎOmNmMÑMÏNÍM","ÍMmÏNÍMÑMÍMĞM","ÍOmOÍSÍR","ÍNmMÍmMmMmÏNÍR","ÍMoÍMmOÍMĞR","ÍPÍNnMÍW","ÒOÏW","QÑY"

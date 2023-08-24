@@ -1,0 +1,1 @@
+2058 DATA 58,27,20,"ZÒS","VÑPÍS","VÍNÎMÍNÑO","VÍO­ÍÍOÍO","MÑMĞMmÍÍPÍO","MÍOÏNÎMÍ­ÎMÎO","MÍMmRÎMÍÍÎMÍP","ÒMÍOÍMÍ­ÑMÍP","ÍOÍMmÍmÍMÍMÍÑMÍP","ÍMmNmQÍMÍ­PÍMÍP","ÎMÎNmMÏMÍNÎNÍMÍP","MÍNmNmMÏMÑMÎMÍP","MÏmÏmÏNĞMÎMÍP","ĞMÍUÏNÍMÍP","ÍNmMÍNmĞNÏnÍíÑ","ÍRmMÍMÍNĞNÍmÍOÍ","ĞMÍNmÍMÍZÍ","OÍNmNÍMÎNÎNÔ","OÎNÏNÔS","PĞ_"

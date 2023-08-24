@@ -1,0 +1,1 @@
+2054 DATA 54,23,20,"MáM","MÍOÎNÍOÍOÍOÍM","MÍMmQmOmOmOÎ","ÑMÍNÍOÏMÎmÏ","ÍOÍMÎmÒOÍOÍ","ÍMmOÍM’ÍOÍMmMÍ","ÎMÍNÍM’ÑOÍ","ÎMÕŽÍOÍMÏ","ÍVÍŽÍMmOÍN","ÍMÎMÏMÏŽÎMÍNÏ","ÍMÍOÍOÎŽÎMÏNÍ","ÍOíRmŽÍSÍ","ÍMÍOÍOÎNÍOÎNÍ","ÑMÚMÎ","ÍVÍOÍPmMÍ","ÍMmNÍMmMmMmOÍMÍPÍ","ÍMÍmÎMmÍNÎMÎPÍMÍ","ÍNmMnMÐMmNmMÍMÍMÍ","ÍVÍOÍRÍ","ã"

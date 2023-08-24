@@ -1,0 +1,1 @@
+2022 DATA 22,22,20,"XĞR","MØNÑN","MÍPÍNÍNmNÍOÎM","MÍMmMmMmNmMÍMmMmOÍM","MÎmMmOÍMíÍMmOmMÍM","ÏOØMÎM","ÍNmMmÍNÍ’ÍMmÍN","ÍMÍOÍNÍ’ÎMÍN","ÍNÎMÎMÍM‘ÍNÍN","ÍMÍRm’MmMÍN","ÍMÍMmMÎMÍ’ÍNÍN","ÍNmMmÍNÍ’ÍMmÍN","ÍMmOÍNÎmÑNÍN","ÍMmMmMĞMmMmNmMmÍN","ÎMÍQmMmMmMmOÏ","MÍNÒMmPmPÍ","MÍUÍMÓMÍ","MÓMÍmVÍ","SÍO×","SÑV"

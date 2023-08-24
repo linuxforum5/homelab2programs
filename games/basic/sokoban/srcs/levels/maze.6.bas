@@ -1,0 +1,1 @@
+2006 DATA 6,12,11,"ÒNÏM","ÍŽNÍMÎíÎ","ÍŽNÏOÍ","ÍŽQnMÍ","ÍŽNÍMÍMmMÍ","ÍŽÏMÍMmMÍ","ÐMmMÍmNÍ","OÍNmÍMmMÍ","OÍMmNmNÍ","OÍNÎOÍ","OÕ"

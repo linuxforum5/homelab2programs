@@ -1,0 +1,1 @@
+2060 DATA 60,26,16,"TÑY","TÍOĞV","TÍMmPĞNĞM","TÍOÍMmÍNĞNÍM","×MÍOmOÍOÍM","ÍQÍMmNĞMÍNÍNÍM","ÍmNÍOmNÍNmMÍMmMÎM","Í­ÍMÍMmMmMÎNÎPÍÍN","ÍÍmMíMÍOÎPnMÍÍN","ÍÍMmMmNmMmMÎOÎMÍN","Í­nMÍMÎOmMÍmÍMmMÍÍN","ÍÍRÎOÍQÍÍN","ÍÓNÏMÒÎM","ÍMn^­Î","ÍNŞNÍ","Ğ\Ò"

@@ -1,0 +1,1 @@
+2050 DATA 50,21,16,"QÙO","QÍPÏPÍO","QÍQmMmNĞM","OĞMÍOmMmPÍM","NÎMmNÍmĞMmMmMÍM","ÏOÍMÍOÏNmMÍM","ÍMmNmNÍNmNÍMĞM","ÍMÎmĞMÍmÍNmNÏ","ÍMÎNÏMÍMÍMÍNmNÍ","ÍPímOmOÍMmMÍMÍ","ÑNÍNÎNÍMmÍNÍ","NÍMÑmNÍNÍMÍ","NÍ“ÍMnMÍmMÍMÍ","NÍ“ÍUÍ","NÍ“ÓNÎ","NÕQĞM"

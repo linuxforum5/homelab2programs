@@ -1,0 +1,1 @@
+2036 DATA 36,18,19,"QĞU","OÏNÎT","ĞNmNÍT","ÍOmMmNĞQ","ÍMmOÍMmOÍMĞ","ÍNÍNÍOmMÍMÍÍ","ÎmÍmMĞmĞÍ","MÍOÑMÎMÍ","MÍmÍMÎíÎMÎNÍ","MÍMÍPmQÍ","MÍOĞMÏNÍ","MÏMÎMÍNÎMÍ","NÎmMĞmMÏÍ","NÍOÎPÍMÍÍ","MÎMnÎNmMÍMĞ","MÍQpMÍQ","MÍMmMÏPÍQ","MÍOÍMÒQ","MÑX"

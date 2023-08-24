@@ -1,0 +1,1 @@
+2019 DATA 19,28,20,"TÒZ","TÍOíĞW","RÑMmOÍW","RÍOÎPĞT","RÍMmÎNÎPÍT","RÍOÍNÑMÍT","RÍMÍnMmPÍMÍT","RÍNmMmMÏMÍMÍT","RÍMÍOmNÍMÍMÍT","RÍMÍNÍmÍOÍMÍT","QÎMĞOÍMÍMÍT","QÍNmNÑMÍMÍMĞO","PÎPmQmNÏNĞ","ÑNÏMmMmÍMmMÍO‘Í","ÍQÎRÍNÎNÍ‘Í","ÍMpPÒmÎOÍÎÍ","ÎPÎZÍÍ","MÎNÛOÍ","NÍNÍYÑNÎ","NĞ]ĞM"

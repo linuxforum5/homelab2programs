@@ -1,0 +1,1 @@
+2053 DATA 53,13,19,"OÖ","OÍNÏOÍ","OÍMmOmNÍ","OÍNĞmÎ","OÎMÍNÍNÍ","NÎNÍ­OÍ","NÍNÎÍNÍ","NÍMíMÍ­ÍMÎ","NÍMÍmÍÍmMÍ","NÍMmMÍÍNÍ","NÍMÍMÍ®ÍNÍ","NÍMmMÍÍmÎ","NÍP­ÍNÍ","MÏNÍNÍNÍ","ÎPĞNÍ","ÍNÓmÎ","ÍMmRmNÍ","ÍNÎOÍOÍ","Ù"

@@ -1,0 +1,1 @@
+2059 DATA 59,29,20,"UĞ\","UÍNÍ\","UÍNÔU","OÓNÍRÍU","OÍOÍMÍMÍMÍMÍOÎT","OÍMmQmNÎNmMÍT","NÏMmÍMÍNÍMÍQÕ","NÍNmNÍNmÍMÍMnMÍOÍMÍNÍ","MÎMÍOÍQÏPmMÍMÍNÍ","MÍNÍmOÍMÏNÍNÍMnÍMÍNÍ","MÍPmÎMmNÍOÎMmNÍMÍMÎ","ĞmMmMÍPÎNÍOmPÍ","ÍNÍPÏMÍMmMmMÏNÏ­Í","ÍQÎNnMíNmQÎÍ","ÍNÎNÎOmNÍmÍNÎ­Í","ÎMÍNmNÍMÍMmÎNÎ­Ï","ÎMÎNmNÍMmMÍNÍ­ÏN","ÍPmMĞOÍM­ÏP","ÍOÍNÍNÍNÍN­ÏR","ÔN×T"

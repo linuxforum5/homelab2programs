@@ -1,0 +1,1 @@
+2030 DATA 30,14,20,"MÑT","MÍOÓN","MÍMmMÏOÍN","MÍMmPnMÍN","MÎMĞOÍN","ÏMÍNÍMÏN","ÍOÍNÍíÎO","ÍMnPmMÍO","ÍOÍMÍMmMĞ","ÑMÍOÍNÍ","MÍOmĞOÍ","MÍNmQmNÍ","MÎOÑMÎ","MÖNÍ","ÎÍMmNmMÍ","Í‘ÍMnÍNÍ","ÍMÍMmNmMÍ","Í‘mOÍNÍ","ÎNÖ","MĞU"

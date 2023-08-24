@@ -1,0 +1,1 @@
+2024 DATA 24,21,19,"OÖT","OÍ”ĞQ","OÍÍÍÍNÍQ","OÍ”nMÍQ","OÍQÏNĞN","MÕNmMÍOÍN","MÍQmOmMmNmMÍN","MÍNÍPÍNmMmÍNÍN","MÎMÑOÍNÍNÍN","MÍMmQÍOĞMÍN","ÎNmÍOÍMÎNÍNÍN","ÍPÎmÏPÍNÎM","ÍMmPmMÍNÍNÍOÍM","ÑPÍMÎMÍMÎMÎ","PÍmÍMÍNmNmMmOÍ","PÍíÍNmÍoNÍOÍ","PÏNmRÑ","RÎNÍNÍNÍP","SÖP"

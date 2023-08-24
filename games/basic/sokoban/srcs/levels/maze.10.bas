@@ -1,0 +1,1 @@
+2010 DATA 10,21,20,"ZĞO","UÒNÍO","UÍSÍO","UÍNĞMÏM","MÏNÑMÏPÍM","ÎíĞOoMÍPÍM","ÍMnOnMmOÍÎ","ÍNoÍPmNÍ‘Í","ÍMmOÍMnMnMÍ‘Í","ÏOÍNmPÍ‘Í","NÍOÍMmMmMmMÍ‘Í","NÍMÓMÏ‘Í","NÍOÍNmMmNÍ‘Í","NÏMÍMnMmMmÓ","PÍMÍNmRÍP","PÍMÍMoMoMÍP","PÍMÍSÍMÍP","PÍMÕMÍP","PÍWÍP","PÙP"

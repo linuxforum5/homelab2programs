@@ -1,0 +1,1 @@
+2044 DATA 44,25,19,"RÒY","OÑOÍY","OÍOÍMÍMÑU","OÍMmMÍNmPÒP","NÎmNÏMÎSÍP","ÏNnMmMmMÍNÎOÑ","ÍSmOÒMÎOÍ","ÍNÔMÍíOÍMÍNÍMÍ","ÎMÏRÐMÍmÍMÍNÍ","MÍMÏMÐMÎŽMÍOmMÎ","MÍNmNmNÍmÎŽMÍmÎNÎ","MÍNÍMÍMÍQŽÎMÎMmMÍ","MÐOÍMÎMÍŽÍPmNÍ","PÑPÍŽÍMÍMÍNÎ","TÒŽÍOÍMÎM","YÍŽÑNÍM","YÍŽSÍM","YÎNÏNÎM","ZÕN"

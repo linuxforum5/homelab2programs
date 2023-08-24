@@ -1,0 +1,1 @@
+2055 DATA 55,22,15,"Má","Î_Í","ÍPmMÍRÎMÍOÍ","ÍNÒMÏNÍmÎMÎ","ÎmÍOÎmÍOÍMÍM","ÍNÍPmMÍÎMÍMÍM","ÍMmMÍMÍMÍMÍÎOÍM","ÍMmMÍnOÍÎmÍMÍM","ÍMÍMmímÎmÍÎOÍM","ÍOoOÍÍPÍM","ÍNmÍOÍMÒMmÏM","ÎNÍMÏnNmOmMÍN","ÎQÍMmNmMÎOÍN","MÑOÍOÓN","QÕT"

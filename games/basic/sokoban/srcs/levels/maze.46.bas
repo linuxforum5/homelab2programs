@@ -1,0 +1,1 @@
+2046 DATA 46,22,17,"PÕNĞO","PÍOÎNĞNÍO","PÍOmOÍNmNÍO","PÍNÍMÎMÍQĞ","PÎMmOmMnÍMÍOÍ","PĞNÍNÍMmMmOÍ","ÑNĞPÏÍ","ÍOÍmMÍNÍMĞ‘Í","ÍRÍNÍMÍMÎ‘Í","ÒMÍNÍmOÏÍ","OÍOÎMÍMmÍOÍÍ","NÎSmNmÍMÑ","MÎMoÎNÍMmOÍP","MÍOÍNÍMÏNÏP","MÍOmNÍmMíĞR","MÑNÍOÍU","QÔU"

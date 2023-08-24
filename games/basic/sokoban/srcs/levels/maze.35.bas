@@ -1,0 +1,1 @@
+2035 DATA 35,20,16,"ØNÒ","ÍOÍPÍíĞÍ","ÍOnÍS‘Í","ÍOÍMÏOÎMÍ","ÎMÎMÏNÍOÍ","MÍMmMmQÍMÎMĞ","MÍNmMmÎNÍSÍ","ĞMÍNĞMÎMÎMÍ","ÍNÍMÍmOÎMÎPÍ","ÍMmNmNÍMÎMÓ","ÍMÍMmMmPÍMÍR","ÍNmMÎMÎMÍMÍR","ÍMnQnNÍR","ÎMÎMÏMmNÍR","MÍPÍMÍPÍR","MÒMÒR"

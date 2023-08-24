@@ -1,0 +1,1 @@
+2020 DATA 20,20,20,"SØM","SÍ–ÍM","QÏÍÍÍÍÍM","QÍO•ÍM","QÍíMmMmMmM­­ÍM","PÓMÓM","MĞOÍPÎNÍN","ÎPmMÍPÍMmMÎM","ÍNÍmÍMÏMÏmOÎ","ÍMmNmMmOÍMmMmMmMÍ","ÍNÍMmMÎSÍmMÍ","ÍOmĞmĞmÎNÍ","ĞNÎOÍPÍNÍ","OÍmMÎOÍMÍMnNÍ","OÍOÍMmMÍNmPÍ","OÏMÍMnMÍNmMÏ","QÍMÍPÍMmMÎN","QÍMÔMÍO","QÍVÍO","QØO"
