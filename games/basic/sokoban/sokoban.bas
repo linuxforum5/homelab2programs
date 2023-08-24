@@ -147,8 +147,8 @@
 740 IF VK =121 AND NV = 101 THEN EC = LC : KB = PEEK( PK ) : POKE PK, 101 : POKE PL, BG : BG=121: EB = PEEK( NP ) : POKE NP, 99 : EP = PL : PL=NP                 '"! Ha pöttyre toltuk pöttyről a lábát. Pötty magában=121, Pöttyön láda=101
 750 ST = ST + 1 : IF TC <> 1 THEN TC = 50+256*10                                     '"! Lépésszám növelése
 
-800 POKE 16404, 189, 192 : PRINT LC;" LADA ";                                        '"! Statisztikai adatok megjelenítése, majd ugrás a billentyűfigyeléshez
-820 POKE 16404, 229, 192 : PRINT ST;" LEPES";
+800 POKE 16404, 190, 192 : PRINT LC;" LADA ";                                        '"! Statisztikai adatok megjelenítése, majd ugrás a billentyűfigyeléshez
+820 POKE 16404, 230, 192 : PRINT ST;" LEPES";
 822 POKE 16404,  23, 195 : PRINT CHR$(200);"ANG ";
 824 IF ( HN = 1 ) THEN PRINT "VAN  ";
 826 IF ( HN = 0 ) THEN PRINT "NINCS";
