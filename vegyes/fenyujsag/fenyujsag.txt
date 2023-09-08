@@ -1,0 +1,3 @@
+PRINT CHR$(12)
+SZ$="HOMELAB 2 (AIRCOMP 16) HUNGARIAN COMPUTER 1983 ... SZABADSZOVEGES FENYUJSAG ... "                                                      '"! 0x418 A BASIC változók eleje, ez meg az első változó
+CALL 20992                                                                         '"! 0x5200 címen kezdődik a gépi rutin
