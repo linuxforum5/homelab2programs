@@ -66,7 +66,7 @@ protected:
 	DECLARE_QUICKLOAD_LOAD_MEMBER(quickload_cb);
 	u32 screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	std::unique_ptr<u8[]> m_vram;
-	u8 m_rows = 0U;
+	u8 m_rows = 0U;                   // Character rows in screen
 	u8 m_cols = 0U;
 	required_device<cpu_device> m_maincpu;
 	required_memory_bank m_bank1;
@@ -141,64 +141,58 @@ INTERRUPT_GEN_MEMBER(homelab2_state::homelab_frame)
 		m_maincpu->set_input_line(INPUT_LINE_NMI, ASSERT_LINE);
 }
 
-u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect)
-{
+u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect) {
 	if (!m_cols) return 1;
 
-	u16 sy=0,ma=1; // ma/relative memory address in vram
+        int screenHeight = ( m_DL > 200 ) ? m_DL : 200;
+        int alfaLines = ( m_DL - m_GL )/8 ; // AL/8
+	screen.set_visarea( 0, 319, 0, screenHeight-1 );
 
-	for (u8 y = 0; y < m_rows; y++) { // Current character row index [0-24]
-		for (u8 ra = 0; ra < 8; ra++) { // Current pixel row in current carachter row [0-7]
-		    u16 *p = &bitmap.pix(sy++); // Row first pixel pointer in viewable screen in sy. line
+	u16 screen_y = 0;
 
-		    u8 current_line0 = sy-1; // Current pixel line index [0-199]
-		    if ( current_line0 <= m_DL ) { // If this pixel line is visible
-			if ( current_line0 < m_DL-m_GL ) { // Current line in text area
-			    for (u16 x = ma; x < ma + m_cols; x++) {
-				u8 const chr = m_vram[x]; // get char in videoram
-				u8 const gfx = m_p_chargen[chr | (ra<<8)]; // get dot pattern in chargen
-				/* Display a scanline of a character */
-				*p++ = BIT(gfx, 7);
-				*p++ = BIT(gfx, 6);
-				*p++ = BIT(gfx, 5);
-				*p++ = BIT(gfx, 4);
-				*p++ = BIT(gfx, 3);
-				*p++ = BIT(gfx, 2);
-				*p++ = BIT(gfx, 1);
-				*p++ = BIT(gfx, 0);
-			    }
-			} else { // Current line in graphics area
-			    u8 graphics_line0 = current_line0 - ( m_DL - m_GL ); // Current graphics y coordinate, the current graphics line index 
-
-			    u8 graphics_back_index = m_GL - graphics_line0 - 7 + 8;
-			    u16 RAM_offset = 0x4000 - m_cols * graphics_back_index + 39; // A látható grafikus terület kezdőcíme
-
-			    u16 RAM2offset = m_HM - 0x4000 + graphics_line0 * m_cols; // Ha GL csökken, a látható grafika is csökken, de nem tudjuk, hogy melyik része marad látható
-			    if ( RAM_offset > RAM2offset ) {
-				    // fprintf( stderr, "Sorkezdőcím hiba!: %d, %d (%04X, %d)\n", RAM_offset, RAM2offset, m_HM, m_HM );
-				    // exit(1);
-			    }
-
-			    for( u16 byte=RAM_offset; byte<RAM_offset+m_cols; byte++ ) {
-				u8 const gfx = RAM[ byte ]; // get dot pixels in GRAPH RAM
-				*p++ = BIT(gfx, 7);
-				*p++ = BIT(gfx, 6);
-				*p++ = BIT(gfx, 5);
-				*p++ = BIT(gfx, 4);
-				*p++ = BIT(gfx, 3);
-				*p++ = BIT(gfx, 2);
-				*p++ = BIT(gfx, 1);
-				*p++ = BIT(gfx, 0);
-			    }
-			}
-		    } else { // Black blank line
-			for( u16 x=0; x<320; x++ ) {
-			    *p++ = 0;
-			}
-		    }
-		}
-		ma+=m_cols;
-	}
+        // First show the text mode screen area
+        u16 char_memory_address = 1 + 1000 - alfaLines * m_cols; // memory_address/relative memory address in vram. The first character is on 0x0001!
+        for ( int char_row = 0; char_row < alfaLines; char_row++ ) { // Current character row index [0-24]
+            for ( u8 ra = 0; ra < 8; ra++ ) { // Current pixel row in carachter [0-7]
+                u16 *p = &bitmap.pix( screen_y++ ); // Row first pixel pointer in viewable screen in screen_y. line
+                for ( int x = char_memory_address; x < char_memory_address + m_cols; x++ ) {
+                    u8 const chr = m_vram[ x ]; // get char in videoram
+                    u8 const gfx = m_p_chargen[ chr | ( ra << 8 ) ]; // get dot pattern in chargen
+                    /* Display a scanline of a character */
+                    *p++ = BIT(gfx, 7);
+                    *p++ = BIT(gfx, 6);
+                    *p++ = BIT(gfx, 5);
+                    *p++ = BIT(gfx, 4);
+                    *p++ = BIT(gfx, 3);
+                    *p++ = BIT(gfx, 2);
+                    *p++ = BIT(gfx, 1);
+                    *p++ = BIT(gfx, 0);
+                }
+            }
+            char_memory_address += m_cols;
+        }
+        // Then we are showing the graphics lines. The graphics area is on the bottom of RAM. (In grahics mode, the stack moved before the graphics area)
+        int graphics_byte_address = 0x4000 - m_GL * m_cols - 1; // relative address in this 0x4000 segment
+        for ( int graphics_line0 = 0; graphics_line0 < m_GL; graphics_line0++ ) { // Current graphics y coordinate, the current graphics line index 
+            u16 *p = &bitmap.pix( screen_y++ ); // Row first pixel pointer in viewable screen in screen_y. line
+            for( u16 byte = graphics_byte_address; byte < graphics_byte_address + m_cols; byte++ ) {
+                u8 const gfx = RAM[ byte ]; // get dot pixels in GRAPH RAM
+                *p++ = BIT(gfx, 7);
+                *p++ = BIT(gfx, 6);
+                *p++ = BIT(gfx, 5);
+                *p++ = BIT(gfx, 4);
+                *p++ = BIT(gfx, 3);
+                *p++ = BIT(gfx, 2);
+                *p++ = BIT(gfx, 1);
+                *p++ = BIT(gfx, 0);
+            }
+            graphics_byte_address += m_cols;
+        }
+        // Rest the blank lines
+        while( screen_y < 200 ) {
+            u16 *p = &bitmap.pix( screen_y++ ); // Row first pixel pointer in viewable screen in screen_y. line
+            for( u16 x=0; x<320; x++ ) *p++ = 0;
+        }
 	return 0;
 }
 
@@ -722,10 +716,10 @@ INPUT_PORTS_END
 
 void homelab2_state::machine_start()
 {
-	save_item(NAME(m_nmi));
-	save_item(NAME(m_spr_bit));
-	save_item(NAME(m_rows));
-	save_item(NAME(m_cols));
+	save_item( NAME( m_nmi ) );
+	save_item( NAME( m_spr_bit ) );
+	save_item( NAME( m_rows ) );
+	save_item( NAME( m_cols ) );
 	m_vram = make_unique_clear<u8[]>(0x800);
 	save_pointer(NAME(m_vram), 0x800);
 	m_bank1->configure_entry(0, m_vram.get());
@@ -867,13 +861,13 @@ void homelab2_state::homelab2(machine_config &config)
 	m_maincpu->set_vblank_int("screen", FUNC(homelab2_state::homelab_frame));
 
 	/* video hardware */
-	screen_device &screen(SCREEN(config, "screen", SCREEN_TYPE_RASTER, rgb_t::green()));
+	screen_device &screen( SCREEN( config, "screen", SCREEN_TYPE_RASTER, rgb_t::white() ) ); // green
 	screen.set_refresh_hz(50);
 	screen.set_vblank_time(ATTOSECONDS_IN_USEC(2500));
-	screen.set_size(40*8, 25*8);
-	screen.set_visarea(0, 40*8-1, 0, 25*8-1);
-	screen.set_screen_update(FUNC(homelab2_state::screen2_update));
-	screen.set_palette("palette");
+	screen.set_size( 320, 255 ); // 40*8, 25*8 );
+	screen.set_visarea( 0, 40*8-1, 0, 25*8-1);
+	screen.set_screen_update( FUNC( homelab2_state::screen2_update ) );
+	screen.set_palette( "palette" );
 
 	GFXDECODE(config, "gfxdecode", "palette", gfx_homelab);
 	PALETTE(config, "palette", palette_device::MONOCHROME);
