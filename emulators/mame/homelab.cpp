@@ -142,14 +142,11 @@ INTERRUPT_GEN_MEMBER(homelab2_state::homelab_frame)
 }
 
 u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect) {
-	if (!m_cols) return 1;
-
+        if (!m_cols) return 1;
         int screenHeight = ( m_DL > 200 ) ? m_DL : 200;
         int alfaLines = ( m_DL - m_GL )/8 ; // AL/8
-	screen.set_visarea( 0, 319, 0, screenHeight-1 );
-
-	u16 screen_y = 0;
-
+        screen.set_visarea( 0, 319, 0, screenHeight-1 );
+        u16 screen_y = 0;
         // First show the text mode screen area
         u16 char_memory_address = 1 + 1000 - alfaLines * m_cols; // memory_address/relative memory address in vram. The first character is on 0x0001!
         for ( int char_row = 0; char_row < alfaLines; char_row++ ) { // Current character row index [0-24]
@@ -193,7 +190,7 @@ u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, 
             u16 *p = &bitmap.pix( screen_y++ ); // Row first pixel pointer in viewable screen in screen_y. line
             for( u16 x=0; x<320; x++ ) *p++ = 0;
         }
-	return 0;
+        return 0;
 }
 
 u8 homelab2_state::mem3800_r()
@@ -396,8 +393,8 @@ void homelab3_state::brailab4_io(address_map &map)
 static INPUT_PORTS_START( homelab2 )
 	PORT_START("X0")
 	PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Left Shift")  PORT_CODE(KEYCODE_LSHIFT) PORT_CHAR(UCHAR_SHIFT_1)
-	PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Right Shift") PORT_CODE(KEYCODE_RSHIFT)
-	PORT_BIT(0xfc, IP_ACTIVE_LOW, IPT_UNUSED)
+	PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Right Shift") PORT_CODE(KEYCODE_RSHIFT)
+	PORT_BIT(0xDE, IP_ACTIVE_LOW, IPT_UNUSED)
 
 	PORT_START("X1")
 	PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Space") PORT_CODE(KEYCODE_SPACE) PORT_CHAR(' ')
