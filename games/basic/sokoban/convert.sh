@@ -9,5 +9,5 @@ while [ $i -ne 60 ] ; do
 done
 cat srcs/$NAME.post.bas >> $NAME.bas
 
-h2CreateHtp -t $NAME.bas -o $NAME.htp -B $NAME.final.BAS
+h2CreateHtp -t $NAME.txt -o $NAME.htp -B $NAME.bas
 htp2h2wav -i $NAME.htp -o $NAME.wav
