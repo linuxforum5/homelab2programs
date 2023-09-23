@@ -22,7 +22,7 @@
 3  LV =  3 : GOTO 70 '" PRINCZ LASZLO    "
 4  LV =  4 : GOTO 70 '" HUNGARY          "
 5  LV =  5 : GOTO 70 '" LASZLO@PRINCZ.HU "
-6  LV =  6 : GOTO 70 '" 2023 V.: 1.0     "
+6  LV =  6 : GOTO 70 '" 2023 V.: 1.0.1   "
 7  LV =  7 : GOTO 70 '" GPL 3            "
 8  LV =  8 : GOTO 70 '""""""""""""""""""""
 9  LV =  9 : GOTO 70
