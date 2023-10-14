@@ -1,0 +1,1 @@
+/home/teszt/workspace/retro/mame/recompile/falbonto/utils/levels.txt

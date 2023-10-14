@@ -1,0 +1,168 @@
+======================================== 1. szint Extra téglák: 2-6, P, E, T
+                                       !
+                                       !
+                                       !
+F:F:F:F:F:F:F:F:F:P:F:F:F:F:F:F:F:F:F:R!
+LF:F:2:F:F:F:F:F:F:F:F:F:F:F:F:F:2:F:F:!
+F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:R!
+======================================== 14. AIRCOMP 16
+                                       !
+L6: 6:H F:  6:H H6: H   H 6:     H  6:R!
+L H  H  H H H   H H HH HH H H   HH  H  !
+LF:  H  E:  H   H H H H H T:     H  F:R!
+L H  H  H H H   H H H   H H      H  H R!
+L H P:H H H 2:H 2:H H   H H     P:H F:R!
+======================================== . Csiga
+         P:F:F:F:P:             2: 2:  !
+        F:        F:            H  H   !
+       F:   F:HE:  F:           H H    !
+       F:  F:      F:           HH     !
+        F:  F:F:F:F:            HT:    !
+LF:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:    !
+======================================== 3.
+                                       !
+                                       !
+F:F:F:P:F:F:F:F:F:F:F:E:T:F:F:F:F:F:F:R!
+F: F: F: F: F: F: F: F: F: F: F: F: F: !
+LF:F:F:F:E:F:F:F:F:F:F:F:F:F:F:P:F:F:F:!
+F:F:P:F:F:F:F:F:F:F:F:F:T:F:E:F:F:F:F:R!
+======================================== 2. BASIC
+   F:F:    F:H    F:H   F:HE:   F:H    !
+   H  H   H   H  H        H    H   H   !
+   F:T:   F:HF:   P:H     H    H       !
+   H   H  H   H      H    H    H       !
+   H   H  H   H  H   H    H    H   H   !
+   F:F:   H   H   F:H   T:HF:   F:H    !
+======================================== . Vékonyjég
+                                       !
+F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:R!
+                                       !
+F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:R!
+                                       !
+F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:R!
+======================================== 16. NEUMANN
+                                       !
+L   H P:P: H  H H   H  F:H  H   H H   R!
+F:  H H    H  H HH HH H   H F:  H F:  R!
+L H H F:H  H  H H H H P:HF: H H H H H R!
+L  F: H    H  H H   H H   H H  F: H  F:!
+L   H 4:4:  F:  H   H H   H H   H H   R!
+======================================== . Hullám
+L     3:3:     F:F:     3:3:     T:F:  !
+    F:    F:          F:    F:         !
+   F:      F:        P:      F:        !
+  P:        F:      F:        P:      R!
+ F:          F:    F:          F:    F:!
+L     3:3:     F:F:     3:3:     3:3:  !
+======================================== 4. Háló
+  F:  F:  2:  F:  F:  F:  T:  F:  F:  R!
+F:  F:  E:  F:  F:  F:  F:  F:  3:  F: !
+  F:  F:  F:  F:  F:  F:  P:  F:  F:  R!
+F:  F:  6:  F:  F:  F:  F:  F:  F:  F: !
+  F:  F:  F:  F:  T:  F:  4:  F:  F:  R!
+F:  5:  F:  F:  F:  F:  F:  F:  F:  F: !
+======================================== 8. 1982 : Z80
+                                       !
+ H  F:   F:   E:     F:HE:     F:   F: !
+F: H  H H  H H  R H     H     H  H H  R!
+ H  HT:  T:    H       H   F:  F:  H  R!
+ H    H H  H  H   H   H       H  H H  R!
+LF: F:   P:  F:F:    P:HP:     F:   F: !
+======================================== 5.
+                                       !
+                                       !
+                                       !
+F:P:F:F:2:F:3:F:4:F:5:F:4:F:3:F:2:F:P:R!
+LF:F:E:F:F:F:F:F:T:E:F:F:F:F:F:F:E:F:F:!
+F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:R!
+======================================== 9. 16KB RAM
+                                       !
+ F:   F:  H  H F:       F:    F:  H   R!
+L H  H    H H  H H      H H  H  H HH HR!
+  H  T:H  F:   P:H      F:   P:F: H H R!
+  H  H  H H H  H  H     H H  H  H H   R!
+ F:H  F:  H  H F:H      H  H H  H H   R!
+======================================== . Labirynth Extra téglák: 2-6, P, E, T F:25A0
+F:F:F:F:F:F:F:F:F:F:F:F:    F:F:F:F:F:R!
+L         H         H       H      H   !
+F:F:P:          T:        H    H       !
+L       F:F:    P:  F:F:F:E:F:F:   F:F:!
+L  H    H           H                 R!
+L6:6:6:6:   6:6:6:6:6:6:6:6:6:6:6:6:6:R!
+======================================== 7. GR.: 320x200
+                                       !
+ F:  F:     HF: HF: F:H     HF: F:H F:R!
+L    H H  H   H   H H H H H   H H H H R!
+L T: F:     HE: P:H H H  H  F:H H H H R!
+L  H H H  H   H H   H H H H H   H H H R!
+ T:  H H H  HF: 6:H 6:H     6:H 6:H 6:R!
+======================================== 6.
+                                       !
+F: F: F: F: F: F: F: F: F: F: F: F: F: !
+F:F:F:F:F:E:F:F:F:F:F:F:F:E:F:F:F:F:F:R!
+F: F: F: F: F: F: T: F: F: F: F: F: F: !
+LF:F:2:F:F:F:F:F:F:F:F:F:F:F:F:F:2:F:F:!
+F: F: F: F: F: F: F: F: F: F: F: F: F: !
+======================================== 10. HOMELAB II
+                                       !
+L H T:H H   H F:H H    H  F:    F:H F:R!
+L H H H HH HH H   H   H H H H    H   H !
+LF: H H H H H P:H H   P:H F:     H   H !
+L H H H H   H H   H   H H H H    H   H !
+L H F:H H   H F:H F:H H H F:H   F:H F:R!
+======================================== 13. V
+   T:     T:      E:      T:     T:    !
+L     6:                      6:      R!
+         5:     P:  P:     5:          !
+L           3:          3:            R!
+    6:         2:    2:         6:     !
+L                 F:                  R!
+======================================== 11. HUNGARY'82
+                                       !
+L H H H H  H  P:   H  P:  H H H  H  F:H!
+L H H H H  H H    H H H H H H H H H   H!
+LF: H H HH H H F: F:H T:  F:H    H  F:H!
+L H H H H HH H  H H H H H  H    H H H  !
+L H F:H H  H  F:  H H H H  H     H  F:H!
+======================================== . Piramis
+                   E:                  !
+                 2:2:2:                !
+               3:3:P:3:3:              !
+             4:4:4:4:4:4:4:            !
+           5:5:5:5:T:5:5:5:5:          !
+         6:6:6:6:6:6:6:6:6:6:6:        !
+======================================== 12. REMAKE 2023
+                                       !
+F:  P:H H H  H  H H F:H HE: F:H HF: HF:!
+L H H   HHH H H HH  H     H H H   H   R!
+F:  T:H H H F:H H   P:H F:H H H F:H HF:!
+L H H   H H H H HH  H   H   H H H     R!
+L H F:H H H H H H H F:H F:H F:H F:H HF:!
+======================================== 17. :-)
+    F:T:F:        E:        F:T:F:     !
+                  E:                   !
+                  E:                   !
+                                       !
+      F:P:                  P:F:       !
+        F:F:F:F:F:P:F:F:F:F:F:         !
+======================================== 15. LUKÁCS J.& E.
+              H                        !
+L   H H H H  H   P:  F: HP:   H   F:H  !
+L   H H HH  H H H H H     H  H H  H    !
+L   H H H   T:H H    H   F:   H   F:   !
+L   H H HH  H H H H   H   H  H E: H    !
+F:H F:H H H H H  F: F:  F: H  F:  F:H R!
+======================================== . Sínek
+L     H     H     H     H     H     H  !
+F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:R!
+L     H     H     H     H     H     H  !
+L     H     H     H     H     H     H  !
+F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:F:R!
+L     H     H     H     H     H     H  !
+======================================== 18. Vastag jég
+L6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:!
+6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:R!
+L6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:!
+6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:R!
+L6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:!
+6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:6:R!

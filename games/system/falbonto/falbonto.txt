@@ -1,0 +1,3 @@
+DL=200
+GL=192
+CALL 16640                                                                         '"! 0x4100 címen kezdődik a gépi rutin
