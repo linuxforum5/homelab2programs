@@ -90,23 +90,26 @@ protected:
 private:
 	INTERRUPT_GEN_MEMBER(homelab_frame);
 	void homelab2_mem(address_map &map);
-	u8 cass2_r();
+//	u8 cass2_r();
 	bool m_nmi = 0;
-	u8 m_DL = 200;
-	u8 m_GL = 0;
-	u16 m_HM = 0x8000;
         u8 RAM[0x4000] = { 0 };
-	// u8 video_last_data = 0;
-	// offs_t video_last_offset = 0;
-	// int video_last_counter = 0;
+
+        u8 ScreenShadow[ 40 * 265 ] = { 0 }; // A képernyő árnyékterülete. 1 bit 1 pixel.
+        bool ScreenShadowIsInTextMode = true; // Ha igaz, az E000 címtől a szöveges képernyő érhető el, ha hamis, akkor a grafikus 
+	int ScreenShadowY0 = 0;
+	int ScreenShadowX0 = 0;
+
 	bool m_spr_bit = 0;
 	u8 mem3800_r();
+	void mem3800_w(offs_t, u8);
 	u8 mem3a00_r(offs_t);
 	void mem3c00_w(offs_t, u8);
 	u8 mem3e00_r(offs_t);
 	void mem3e00_w(offs_t, u8);
 	u8 mem4000_r(offs_t);
 	void mem4000_w(offs_t, u8);
+	u8 memE000_r(offs_t);
+	void memE000_w(offs_t, u8);
 };
 
 class homelab3_state : public homelab_state
@@ -134,28 +137,20 @@ private:
 	void brailab4_mem(address_map &map);
 };
 
-
 INTERRUPT_GEN_MEMBER(homelab2_state::homelab_frame)
 {
-	if (m_nmi)
-		m_maincpu->set_input_line(INPUT_LINE_NMI, ASSERT_LINE);
+    if (m_nmi) m_maincpu->set_input_line(INPUT_LINE_NMI, ASSERT_LINE);
 }
 
 u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect) {
         if (!m_cols) return 1;
-        int screenHeight = ( m_DL > 200 ) ? m_DL : 200;
-        int alfaLines = ( m_DL - m_GL )/8 ; // AL/8
+        int screenHeight = ( ScreenShadowY0 > 200 ) ? ScreenShadowY0 : 200;
         screen.set_visarea( 0, 319, 0, screenHeight-1 );
-        u16 screen_y = 0;
-        // First show the text mode screen area
-        u16 char_memory_address = 1 + 1000 - alfaLines * m_cols; // memory_address/relative memory address in vram. The first character is on 0x0001!
-        for ( int char_row = 0; char_row < alfaLines; char_row++ ) { // Current character row index [0-24]
-            for ( u8 ra = 0; ra < 8; ra++ ) { // Current pixel row in carachter [0-7]
-                u16 *p = &bitmap.pix( screen_y++ ); // Row first pixel pointer in viewable screen in screen_y. line
-                for ( int x = char_memory_address; x < char_memory_address + m_cols; x++ ) {
-                    u8 const chr = m_vram[ x ]; // get char in videoram
-                    u8 const gfx = m_p_chargen[ chr | ( ra << 8 ) ]; // get dot pattern in chargen
-                    /* Display a scanline of a character */
+        for( int y = 0; y<screenHeight; y++ ) {
+            u16 *p = &bitmap.pix( y ); // Row first pixel pointer in viewable screen in screen_y. line
+            if ( y < ScreenShadowY0 ) {
+                for( int x = 0; x<40; x++ ) {
+                    u8 const gfx = ScreenShadow[ y * 40 + x ];
                     *p++ = BIT(gfx, 7);
                     *p++ = BIT(gfx, 6);
                     *p++ = BIT(gfx, 5);
@@ -165,37 +160,28 @@ u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, 
                     *p++ = BIT(gfx, 1);
                     *p++ = BIT(gfx, 0);
                 }
+            } else {
+                *p++ = 0;
+                *p++ = 0;
+                *p++ = 0;
+                *p++ = 0;
+                *p++ = 0;
+                *p++ = 0;
+                *p++ = 0;
+                *p++ = 0;
             }
-            char_memory_address += m_cols;
         }
-        // Then we are showing the graphics lines. The graphics area is on the bottom of RAM. (In grahics mode, the stack moved before the graphics area)
-        int graphics_byte_address = 0x4000 - m_GL * m_cols - 1; // relative address in this 0x4000 segment
-        for ( int graphics_line0 = 0; graphics_line0 < m_GL; graphics_line0++ ) { // Current graphics y coordinate, the current graphics line index 
-            u16 *p = &bitmap.pix( screen_y++ ); // Row first pixel pointer in viewable screen in screen_y. line
-            for( u16 byte = graphics_byte_address; byte < graphics_byte_address + m_cols; byte++ ) {
-                u8 const gfx = RAM[ byte ]; // get dot pixels in GRAPH RAM
-                *p++ = BIT(gfx, 7);
-                *p++ = BIT(gfx, 6);
-                *p++ = BIT(gfx, 5);
-                *p++ = BIT(gfx, 4);
-                *p++ = BIT(gfx, 3);
-                *p++ = BIT(gfx, 2);
-                *p++ = BIT(gfx, 1);
-                *p++ = BIT(gfx, 0);
-            }
-            graphics_byte_address += m_cols;
-        }
-        // Rest the blank lines
-        while( screen_y < 200 ) {
-            u16 *p = &bitmap.pix( screen_y++ ); // Row first pixel pointer in viewable screen in screen_y. line
-            for( u16 x=0; x<320; x++ ) *p++ = 0;
-        }
+        ScreenShadowY0 = 0;
+        ScreenShadowX0 = 0;
         return 0;
 }
 
-u8 homelab2_state::mem3800_r()
-{
+u8 homelab2_state::mem3800_r() {
 	return m_io_keyboard[15]->read();  // reset key
+}
+
+void homelab2_state::mem3800_w(offs_t offset, u8 data) { // Set screen generator hardver to graphics mode
+    if ( offset == 0x3939 - 0x3800 ) ScreenShadowIsInTextMode = false;
 }
 
 u8 homelab2_state::mem3a00_r(offs_t offset)
@@ -216,70 +202,48 @@ void homelab2_state::mem3c00_w(offs_t offset, u8 data)
 	m_cass->output(m_spr_bit ? -1.0 : +1.0);
 }
 
+u8 homelab2_state::memE000_r( offs_t offset ) {
+    u8 gfx;
+    if ( ScreenShadowIsInTextMode ) {
+        int vramRelIndex0 = offset % 0x400;       // Character address in video ram First character in 0x001
+        int row8_index0 = (offset-1) / 0x400;     // Row index in char [0-7]
+        u8 const chr = m_vram[ vramRelIndex0 ];   // get char in videoram
+        gfx = m_p_chargen[ chr | ( row8_index0 << 8 ) ]; // get dot pattern in chargen
+    } else {
+        int ram_offset_addr = 0x2000 + offset;
+        gfx = RAM[ ram_offset_addr ]; // get dot pixels in GRAPH RAM
+    }
+    ScreenShadow[ 40 * ScreenShadowY0 + ScreenShadowX0++ ] = gfx;
+    if ( ScreenShadowX0 == 40 ) {
+        ScreenShadowX0 = 0;
+        ScreenShadowY0++;
+        return ( ScreenShadowIsInTextMode ) ? 0xFF : 0xF7; // RST38 : RST 30
+    } else {
+        return 0x7F; // LD A,A
+    }
+}
+void homelab2_state::memE000_w(offs_t offset, u8 data) {}
+
 u8 homelab2_state::mem4000_r(offs_t offset) { return RAM[offset]; }
 void homelab2_state::mem4000_w(offs_t offset, u8 data) {
-    if ( offset == 8 ) m_DL = data;
-    if ( offset == 9 ) m_GL = data;
-    if ( offset == 22 ) m_HM = m_HM - ( m_HM % 256 ) + data;
-    if ( offset == 23 ) m_HM = ((u16)data) * 256 + ( m_HM % 256 );
     RAM[offset]=data;
 }
 
-u8 homelab2_state::mem3e00_r(offs_t offset) {
-    if ( offset == 0 ) { // E00
-        m_nmi = false;
-    } else if ( offset == 0x100 ) { // 3F00
-        m_maincpu->set_input_line(INPUT_LINE_NMI, CLEAR_LINE);
-        m_nmi = true;
-    }
-    return 0;
-}
+u8 homelab2_state::mem3e00_r(offs_t offset) { return 0; }
 
 /**
- * 24 x 013F := 5A (90)
- *  1 x 013F :=  0 (0)
- * NMI bekapcsolása: 1 * 003F <= 87 / 135 vagy 1FF <= C9 vagy 13F <= >0
- * NMI kikapcsolása: 1 * 003E <= 00 / 0
+ * NMI on: LD (3E3E), 0
+ * NMI off: LD (3F3F), AL értéke
  */
 void homelab2_state::mem3e00_w(offs_t offset, u8 data) {
-    if ( offset == 0 ) { // E00
-        m_nmi = false;
-    } else if ( offset == 0x100 ) { // 3F00
+    if ( offset == 0x3F3F - 0x3E00 ) { // 3F3F
+        ScreenShadowIsInTextMode = true;
         m_maincpu->set_input_line(INPUT_LINE_NMI, CLEAR_LINE);
         m_nmi = true;
-    } else {
-        if ( m_DL ) {
-            m_maincpu->set_input_line(INPUT_LINE_NMI, CLEAR_LINE);
-            m_nmi = true;
-        } else {
-            m_nmi = false;
-        }
     }
-/*
-    if ( ( ( offset == 0x003F ) && ( data == 0x87 ) )
-        || ( ( offset == 0x01FF ) && ( data == 0xC9 ) )
-        || ( ( offset == 0x013F ) && ( data > 0 ) )
-       ) {
-	m_maincpu->set_input_line(INPUT_LINE_NMI, CLEAR_LINE);
-	m_nmi = true;
-    } else if ( ( offset == 0x003E ) && ( data == 0 ) ) {
-	m_nmi = false;
-
-    } else {
-	if ( ( offset != video_last_offset ) || ( video_last_data != data ) ) {
-		fprintf( stderr, "*** %d * %04X <= %02X / %d\n", video_last_counter, offset, data, data );
-		video_last_counter = 0;
-	}
-	video_last_offset = offset;
-	video_last_data = data;
-	video_last_counter++;
+    if ( offset == 0x003E ) { // 3E3E
+        m_nmi = false;
     }
-*/
-}
-
-u8 homelab2_state::cass2_r()
-{
-	return (m_cass->input() > 0.03) ? 0x37 : 0;
 }
 
 void homelab3_state::machine_reset()
@@ -308,8 +272,6 @@ u8 homelab3_state::exxx_r(offs_t offset)
 // keys E800-E813 but E810-E813 are not connected
 // cassin E883
 // speaker/cass toggle E880, E802
-
-
 	if (offset == 0x83)
 		return (m_cass->input() > 0.03);
 	else
@@ -332,7 +294,6 @@ u8 homelab3_state::exxx_r(offs_t offset)
 	return data;
 }
 
-
 /* Address maps */
 void homelab2_state::homelab2_mem(address_map &map)
 {
@@ -344,6 +305,7 @@ void homelab2_state::homelab2_mem(address_map &map)
 	map(0x2800, 0x2fff).rom();  // ROM 6
 	map(0x3000, 0x37ff).rom();  // Empty
 	map(0x3800, 0x39ff).r(FUNC(homelab2_state::mem3800_r));
+	map(0x3800, 0x39ff).w(FUNC(homelab2_state::mem3800_w));
 	map(0x3a00, 0x3bff).r(FUNC(homelab2_state::mem3a00_r));
 	map(0x3c00, 0x3dff).w(FUNC(homelab2_state::mem3c00_w));
 	map(0x3e00, 0x3fff).r(FUNC(homelab2_state::mem3e00_r));
@@ -351,10 +313,12 @@ void homelab2_state::homelab2_mem(address_map &map)
 
 	map(0x4000, 0x7fff).r(FUNC(homelab2_state::mem4000_r));
 	map(0x4000, 0x7fff).w(FUNC(homelab2_state::mem4000_w));
-	// map(0x4000, 0x7fff).ram();
 
 	map(0xc000, 0xc3ff).mirror(0xc00).bankrw(m_bank1);
-	map(0xe000, 0xffff).r(FUNC(homelab2_state::cass2_r));
+
+	map(0xE000, 0xFFFF).r(FUNC(homelab2_state::memE000_r));
+	map(0xE000, 0xFFFF).w(FUNC(homelab2_state::memE000_w));
+//	map(0xfF00, 0xffff).r(FUNC(homelab2_state::cass2_r));
 }
 
 void homelab3_state::homelab3_mem(address_map &map)
@@ -386,8 +350,6 @@ void homelab3_state::brailab4_io(address_map &map)
 	homelab3_io(map);
 	map(0xf8, 0xf9).rw("mea8000", FUNC(mea8000_device::read), FUNC(mea8000_device::write));
 }
-
-
 
 /* Input ports */
 static INPUT_PORTS_START( homelab2 )
@@ -741,7 +703,6 @@ void homelab3_state::machine_start()
 	m_cols = 64;
 }
 
-
 u32 homelab_state::screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect)
 {
 	if (!m_cols)
@@ -775,7 +736,6 @@ u32 homelab_state::screen_update(screen_device &screen, bitmap_ind16 &bitmap, co
 	return 0;
 }
 
-
 /* F4 Character Displayer */
 static const gfx_layout charlayout =
 {
@@ -804,6 +764,8 @@ QUICKLOAD_LOAD_MEMBER(homelab_state::quickload_cb)
 	image.fseek(0, SEEK_SET);
 
 	while( block_last_character != 0 ) {
+	    block_counter++;
+printf( "Start loading %d. block ...\n", block_counter );
 	    u8 ch = 0;
 	    u32 bytes = 0; //  = image.fread(&ch, 1);
 	    int cnt=0;
@@ -840,7 +802,6 @@ printf( "End address: '%04X' (%d) ok\n", quick_end, quick_end );
 		space.write_byte( j, ch );
 	    }
 	    printf( "Reading %d bytes block data ok\n", quick_length );
-	    block_counter++;
 	    image.fread( &ch, 1 ); // Read crc
 	    image.fread( &block_last_character, 1 );
 	    /* display a message about the loaded quickload */
@@ -853,7 +814,8 @@ printf( "End address: '%04X' (%d) ok\n", quick_end, quick_end );
 void homelab2_state::homelab2(machine_config &config)
 {
 	/* basic machine hardware */
-	Z80(config, m_maincpu, XTAL(8'000'000) / 2);
+	// Z80(config, m_maincpu, XTAL(8'000'000) / 2);
+	Z80(config, m_maincpu, XTAL(8'000'000) / 2); // 4mhz
 	m_maincpu->set_addrmap(AS_PROGRAM, &homelab2_state::homelab2_mem);
 	m_maincpu->set_vblank_int("screen", FUNC(homelab2_state::homelab_frame));
 
@@ -921,19 +883,14 @@ void homelab3_state::brailab4(machine_config &config)
 
 ROM_START( homelab2 )
 	ROM_REGION( 0x3800, "maincpu", ROMREGION_ERASEFF )
-	// ROM_LOAD( "hl2_1.ic2", 0x0000, 0x0800, BAD_DUMP CRC(205365f7) SHA1(da93b65befd83513dc762663b234227ba804124d))
-	ROM_LOAD( "hl2_1.ic2", 0x0000, 0x0800, CRC(205365f7) SHA1(da93b65befd83513dc762663b234227ba804124d))
-	ROM_LOAD( "hl2_2.ic3", 0x0800, 0x0800, CRC(696af3c1) SHA1(b53bc6ae2b75975618fc90e7181fa5d21409fce1))
-	ROM_LOAD( "hl2_3.ic4", 0x1000, 0x0800, CRC(69e57e8c) SHA1(e98510abb715dbf513e1b29fb6b09ab54e9483b7))
-	ROM_LOAD( "hl2_4.ic5", 0x1800, 0x0800, CRC(97cbbe74) SHA1(34f0bad41302b059322018abc3d1c2336ecfbea8))
+	ROM_LOAD( "hl2_1.ic2", 0x0000, 0x0800, CRC(205365f7) SHA1(da93b65befd83513dc762663b234227ba804124d) )
+	ROM_LOAD( "hl2_2.ic3", 0x0800, 0x0800, CRC(696af3c1) SHA1(b53bc6ae2b75975618fc90e7181fa5d21409fce1) )
+	ROM_LOAD( "hl2_3.ic4", 0x1000, 0x0800, CRC(69e57e8c) SHA1(e98510abb715dbf513e1b29fb6b09ab54e9483b7) )
+	ROM_LOAD( "hl2_4.ic5", 0x1800, 0x0800, CRC(97cbbe74) SHA1(34f0bad41302b059322018abc3d1c2336ecfbea8) )
 	ROM_LOAD( "hl2_m.ic6", 0x2000, 0x0800, CRC(10040235) SHA1(e121dfb97cc8ea99193a9396a9f7af08585e0ff0) )
-	ROM_FILL(0x46, 1, 0x18) // fix bad code
-	ROM_FILL(0x47, 1, 0x0E)
 
 	ROM_REGION( 0x0800, "chargen", 0 )
 	ROM_LOAD( "hl2.ic33",  0x0000, 0x0800, CRC(2e669d40) SHA1(639dd82ed29985dc69830aca3b904b6acc8fe54a))
-	// found on net, looks like bad dump
-	//ROM_LOAD_OPTIONAL( "hl2_ch.rom", 0x0800, 0x1000, CRC(6a5c915a) SHA1(7e4e966358556c6aabae992f4c2b292b6aab59bd) )
 ROM_END
 
 ROM_START( homelab3 )
@@ -994,7 +951,8 @@ ROM_END
 /* Driver */
 
 /*    YEAR  NAME      PARENT    COMPAT  MACHINE   INPUT     CLASS            INIT           COMPANY                    FULLNAME                  FLAGS */
-COMP( 1982, homelab2, 0,        0,      homelab2, homelab2, homelab2_state,  empty_init, "Jozsef and Endre Lukacs", "Homelab 2 / Aircomp 16", MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW | MACHINE_SUPPORTS_SAVE )
+//COMP( 1982, homelab2, 0,        0,      homelab2, homelab2, homelab2_state,  empty_init, "Jozsef and Endre Lukacs", "Homelab 2 / Aircomp 16", MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW | MACHINE_SUPPORTS_SAVE )
+COMP( 1982, homelab2, 0,        0,      homelab2, homelab2, homelab2_state,  empty_init, "Jozsef and Endre Lukacs", "Homelab 2 / Aircomp 16", MACHINE_NO_SOUND_HW | MACHINE_SUPPORTS_SAVE )
 COMP( 1983, homelab3, homelab2, 0,      homelab3, homelab3, homelab3_state,  empty_init, "Jozsef and Endre Lukacs", "Homelab 3",              MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
 COMP( 1984, homelab4, homelab2, 0,      homelab3, homelab3, homelab3_state,  empty_init, "Jozsef and Endre Lukacs", "Homelab 4",              MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
 COMP( 1984, brailab4, homelab2, 0,      brailab4, brailab4, homelab3_state,  empty_init, "Jozsef and Endre Lukacs", "Brailab 4",              MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
