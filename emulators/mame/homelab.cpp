@@ -90,7 +90,7 @@ protected:
 private:
 	INTERRUPT_GEN_MEMBER(homelab_frame);
 	void homelab2_mem(address_map &map);
-//	u8 cass2_r();
+	u8 cass2_r();
 	bool m_nmi = 0;
         u8 RAM[0x4000] = { 0 };
 
@@ -195,6 +195,11 @@ u8 homelab2_state::mem3a00_r(offs_t offset)
 	return data;
 }
 
+u8 homelab2_state::cass2_r()
+{
+    return (m_cass->input() > 0.03) ? 0xff : 0; //  0x37 : 0;
+}
+
 void homelab2_state::mem3c00_w(offs_t offset, u8 data)
 {
 	m_spr_bit ^= 1;
@@ -203,25 +208,30 @@ void homelab2_state::mem3c00_w(offs_t offset, u8 data)
 }
 
 u8 homelab2_state::memE000_r( offs_t offset ) {
-    u8 gfx;
-    if ( ScreenShadowIsInTextMode ) {
-        int vramRelIndex0 = offset % 0x400;       // Character address in video ram First character in 0x001
-        int row8_index0 = (offset-1) / 0x400;     // Row index in char [0-7]
-        u8 const chr = m_vram[ vramRelIndex0 ];   // get char in videoram
-        gfx = m_p_chargen[ chr | ( row8_index0 << 8 ) ]; // get dot pattern in chargen
-    } else {
-        int ram_offset_addr = 0x2000 + offset;
-        gfx = RAM[ ram_offset_addr ]; // get dot pixels in GRAPH RAM
-    }
-    ScreenShadow[ 40 * ScreenShadowY0 + ScreenShadowX0++ ] = gfx;
-    if ( ScreenShadowX0 == 40 ) {
-        ScreenShadowX0 = 0;
-        ScreenShadowY0++;
-        return ( ScreenShadowIsInTextMode ) ? 0xFF : 0xF7; // RST38 : RST 30
-    } else {
-        return 0x7F; // LD A,A
+    if ( m_nmi ) { // NMI enabled, screen generator
+        u8 gfx;
+        if ( ScreenShadowIsInTextMode ) {
+            int vramRelIndex0 = offset % 0x400;       // Character address in video ram First character in 0x001
+            int row8_index0 = (offset-1) / 0x400;     // Row index in char [0-7]
+            u8 const chr = m_vram[ vramRelIndex0 ];   // get char in videoram
+            gfx = m_p_chargen[ chr | ( row8_index0 << 8 ) ]; // get dot pattern in chargen
+        } else {
+            int ram_offset_addr = 0x2000 + offset;
+            gfx = RAM[ ram_offset_addr ]; // get dot pixels in GRAPH RAM
+        }
+        ScreenShadow[ 40 * ScreenShadowY0 + ScreenShadowX0++ ] = gfx;
+        if ( ScreenShadowX0 == 40 ) {
+            ScreenShadowX0 = 0;
+            ScreenShadowY0++;
+            return ( ScreenShadowIsInTextMode ) ? 0xFF : 0xF7; // RST38 : RST 30
+        } else {
+            return 0x7F; // LD A,A
+        }
+    } else { // NMI disable, serial input
+        return cass2_r();
     }
 }
+
 void homelab2_state::memE000_w(offs_t offset, u8 data) {}
 
 u8 homelab2_state::mem4000_r(offs_t offset) { return RAM[offset]; }
@@ -318,7 +328,7 @@ void homelab2_state::homelab2_mem(address_map &map)
 
 	map(0xE000, 0xFFFF).r(FUNC(homelab2_state::memE000_r));
 	map(0xE000, 0xFFFF).w(FUNC(homelab2_state::memE000_w));
-//	map(0xfF00, 0xffff).r(FUNC(homelab2_state::cass2_r));
+	// map(0xE000, 0xE000).r(FUNC(homelab2_state::cass2_r));
 }
 
 void homelab3_state::homelab3_mem(address_map &map)
