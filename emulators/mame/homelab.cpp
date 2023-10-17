@@ -148,8 +148,8 @@ u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, 
         screen.set_visarea( 0, 319, 0, screenHeight-1 );
         for( int y = 0; y<screenHeight; y++ ) {
             u16 *p = &bitmap.pix( y ); // Row first pixel pointer in viewable screen in screen_y. line
-            if ( y < ScreenShadowY0 ) {
-                for( int x = 0; x<40; x++ ) {
+            for( int x = 0; x<40; x++ ) {
+                if ( y < ScreenShadowY0 ) {
                     u8 const gfx = ScreenShadow[ y * 40 + x ];
                     *p++ = BIT(gfx, 7);
                     *p++ = BIT(gfx, 6);
@@ -159,16 +159,16 @@ u32 homelab2_state::screen2_update(screen_device &screen, bitmap_ind16 &bitmap, 
                     *p++ = BIT(gfx, 2);
                     *p++ = BIT(gfx, 1);
                     *p++ = BIT(gfx, 0);
+                } else {
+                    *p++ = 0;
+                    *p++ = 0;
+                    *p++ = 0;
+                    *p++ = 0;
+                    *p++ = 0;
+                    *p++ = 0;
+                    *p++ = 0;
+                    *p++ = 0;
                 }
-            } else {
-                *p++ = 0;
-                *p++ = 0;
-                *p++ = 0;
-                *p++ = 0;
-                *p++ = 0;
-                *p++ = 0;
-                *p++ = 0;
-                *p++ = 0;
             }
         }
         ScreenShadowY0 = 0;
