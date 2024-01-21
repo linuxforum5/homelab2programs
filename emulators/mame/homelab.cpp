@@ -62,6 +62,9 @@ public:
 		, m_io_keyboard(*this, "X%d", 0)
 	{ }
 
+private:
+        virtual u16 max_loadable_address() const = 0;
+
 protected:
 	DECLARE_QUICKLOAD_LOAD_MEMBER(quickload_cb);
 	u32 screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
@@ -93,6 +96,8 @@ private:
 	u8 cass2_r();
 	bool m_nmi = 0;
         u8 RAM[0x4000] = { 0 };
+
+        virtual u16 max_loadable_address() const { return 0x7fff; }
 
         u8 ScreenShadow[ 40 * 265 ] = { 0 }; // A képernyő árnyékterülete. 1 bit 1 pixel.
         bool ScreenShadowIsInTextMode = true; // Ha igaz, az E000 címtől a szöveges képernyő érhető el, ha hamis, akkor a grafikus 
@@ -127,6 +132,11 @@ protected:
 	virtual void machine_reset() override;
 
 private:
+        virtual u16 max_loadable_address() const {
+            // TODO: this should depend on the memory configuration (16k, 32k or 64k models)
+            return 0xffff;
+        }
+
 	u8 exxx_r(offs_t offset);
 	std::unique_ptr<u8[]> m_ram;
 	void port7f_w(u8 data);
@@ -802,7 +812,8 @@ printf( "Load address: '%04X' (%d) ok\n", quick_addr, quick_addr );
 printf( "Size: '%04X' (%d) ok\n", quick_length, quick_length );
 printf( "End address: '%04X' (%d) ok\n", quick_end, quick_end );
 
-	    if ( quick_end > 0x7fff ) return std::make_pair( image_error::INVALIDLENGTH, "File too large" );
+           if ( quick_end > max_loadable_address() )
+                return std::make_pair( image_error::INVALIDLENGTH, "File too large" );
 
 	    for ( int i = 0; i < quick_length; i++ ) {
 		unsigned j = (quick_addr + i);
