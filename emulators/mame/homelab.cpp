@@ -1,4 +1,3 @@
-// license:BSD-3-Clause
 // copyright-holders:Miodrag Milanovic, Robbbert
 /***************************************************************************
 
@@ -68,6 +67,7 @@ protected:
 	std::unique_ptr<u8[]> m_vram;
 	u8 m_rows = 0U;                   // Character rows in screen
 	u8 m_cols = 0U;
+//	u8 scrupdt = 0;
 	required_device<cpu_device> m_maincpu;
 	required_memory_bank m_bank1;
 	required_region_ptr<u8> m_p_chargen;
@@ -92,12 +92,12 @@ private:
 	void homelab2_mem(address_map &map);
 	u8 cass2_r();
 	bool m_nmi = 0;
-        u8 RAM[0x4000] = { 0 };
+	u8 RAM[0x4000] = { 0 };               // Shadow for 0x4000-0x7FFF
 
-        u8 ScreenShadow[ 40 * 265 ] = { 0 }; // A képernyő árnyékterülete. 1 bit 1 pixel.
-        bool ScreenShadowIsInTextMode = true; // Ha igaz, az E000 címtől a szöveges képernyő érhető el, ha hamis, akkor a grafikus 
-	int ScreenShadowY0 = 0;
-	int ScreenShadowX0 = 0;
+	u8 ScreenShadow[ 40 * 265 ] = { 0 };  // Maximum screen size is 320x255 (1 bit = 1 pixel). CPU controls hardver to generate video signal.
+	bool ScreenShadowIsInTextMode = true; // If true, the data source for video generator is from C000. If false, the data source is from 0x6000. This memory contetn addressable from 0xE000
+	int ScreenShadowY0 = 0;               // The current generated screen x byte position
+	int ScreenShadowX0 = 0;               // Screen row position
 
 	bool m_spr_bit = 0;
 	u8 mem3800_r();
@@ -128,6 +128,7 @@ protected:
 
 private:
 	u8 exxx_r(offs_t offset);
+	void exxx_w(offs_t offset, u8 value);
 	std::unique_ptr<u8[]> m_ram;
 	void port7f_w(u8 data);
 	void portff_w(u8 data);
@@ -225,7 +226,7 @@ u8 homelab2_state::memE000_r( offs_t offset ) {
             ScreenShadowY0++;
             return ( ScreenShadowIsInTextMode ) ? 0xFF : 0xF7; // RST38 : RST 30
         } else {
-            return 0x7F; // LD A,A
+            return 0x3F; // CCF ( 0x7F = LD A,A  )
         }
     } else { // NMI disable, serial input
         return cass2_r();
@@ -242,10 +243,18 @@ void homelab2_state::mem4000_w(offs_t offset, u8 data) {
 u8 homelab2_state::mem3e00_r(offs_t offset) { return 0; }
 
 /**
- * NMI on: LD (3E3E), 0
- * NMI off: LD (3F3F), AL értéke
+ * NMI on: LD (3E*), 0
+ * NMI off: LD (3F*), AL értéke
  */
 void homelab2_state::mem3e00_w(offs_t offset, u8 data) {
+    if ( offset / 256 == 0 ) { // 0x3E**
+        m_nmi = false;
+    } else { // 0x3F**
+        ScreenShadowIsInTextMode = true;
+        m_maincpu->set_input_line(INPUT_LINE_NMI, CLEAR_LINE);
+        m_nmi = true;
+    }
+/*
     if ( offset == 0x3F3F - 0x3E00 ) { // 3F3F
         ScreenShadowIsInTextMode = true;
         m_maincpu->set_input_line(INPUT_LINE_NMI, CLEAR_LINE);
@@ -254,6 +263,7 @@ void homelab2_state::mem3e00_w(offs_t offset, u8 data) {
     if ( offset == 0x003E ) { // 3E3E
         m_nmi = false;
     }
+*/
 }
 
 void homelab3_state::machine_reset()
@@ -276,22 +286,34 @@ int homelab3_state::cass3_r()
 	return (m_cass->input() > 0.03);
 }
 
+void homelab3_state::exxx_w(offs_t offset, u8 value ) {
+	if (offset & 0x80) // == 0x80
+	{
+		m_speaker->level_w(0);
+		m_cass->output(-1.0);
+	}
+	else // 	if (offset == 0x02)
+	{
+		m_speaker->level_w(1);
+		m_cass->output(+1.0);
+	}
+}
 
 u8 homelab3_state::exxx_r(offs_t offset)
 {
 // keys E800-E813 but E810-E813 are not connected
 // cassin E883
 // speaker/cass toggle E880, E802
+// Screen synch: E802.bit0
 	if (offset == 0x83)
 		return (m_cass->input() > 0.03);
 	else
-	if (offset == 0x80)
+	if (offset & 0x80) // == 0x80
 	{
 		m_speaker->level_w(0);
 		m_cass->output(-1.0);
 	}
-	else
-	if (offset == 0x02)
+	else // 	if (offset == 0x02)
 	{
 		m_speaker->level_w(1);
 		m_cass->output(+1.0);
@@ -321,6 +343,7 @@ void homelab2_state::homelab2_mem(address_map &map)
 	map(0x3e00, 0x3fff).r(FUNC(homelab2_state::mem3e00_r));
 	map(0x3e00, 0x3fff).w(FUNC(homelab2_state::mem3e00_w));
 
+//	map(0x4000, 0x7fff).ram();
 	map(0x4000, 0x7fff).r(FUNC(homelab2_state::mem4000_r));
 	map(0x4000, 0x7fff).w(FUNC(homelab2_state::mem4000_w));
 
@@ -336,6 +359,8 @@ void homelab3_state::homelab3_mem(address_map &map)
 	map(0x0000, 0x3fff).rom();
 	map(0x4000, 0xcfff).ram();
 	map(0xe800, 0xefff).r(FUNC(homelab3_state::exxx_r));
+	map(0xe800, 0xefff).w(FUNC(homelab3_state::exxx_w));
+	map(0xf000, 0xf7ff).bankrw(m_bank1);
 	map(0xf800, 0xffff).bankrw(m_bank1);
 }
 
@@ -365,12 +390,14 @@ void homelab3_state::brailab4_io(address_map &map)
 static INPUT_PORTS_START( homelab2 )
 	PORT_START("X0")
 	PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Left Shift")  PORT_CODE(KEYCODE_LSHIFT) PORT_CHAR(UCHAR_SHIFT_1)
+//	PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Left Shift") PORT_CODE(KEYCODE_DOWN)
+//	PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Right Shift") PORT_CODE(KEYCODE_DOWN)
 	PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Right Shift") PORT_CODE(KEYCODE_RSHIFT)
 	PORT_BIT(0xDE, IP_ACTIVE_LOW, IPT_UNUSED)
 
 	PORT_START("X1")
 	PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Space") PORT_CODE(KEYCODE_SPACE) PORT_CHAR(' ')
-	PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Up") PORT_CODE(KEYCODE_UP)
+	PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Up") PORT_CODE(KEYCODE_UP) PORT_CODE(KEYCODE_DOWN)
 	PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Left") PORT_CODE(KEYCODE_LEFT)
 	PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Right") PORT_CODE(KEYCODE_RIGHT)
 	PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_KEYBOARD) PORT_NAME("Home") PORT_CODE(KEYCODE_HOME) PORT_CHAR(UCHAR_MAMEKEY(HOME))
@@ -689,15 +716,21 @@ void homelab2_state::machine_start()
 	save_item( NAME( m_spr_bit ) );
 	save_item( NAME( m_rows ) );
 	save_item( NAME( m_cols ) );
+
 	m_vram = make_unique_clear<u8[]>(0x800);
 	save_pointer(NAME(m_vram), 0x800);
 	m_bank1->configure_entry(0, m_vram.get());
 	m_bank1->set_entry(0);
+
 	m_rows = 25;
 	m_cols = 40;
 	m_nmi = 0;
 	m_spr_bit = 0;
 }
+
+#define LINE_SUBDIVISION 82
+#define HORZ_LINES 100
+#define TIMER_SPEED 50*HORZ_LINES*LINE_SUBDIVISION
 
 void homelab3_state::machine_start()
 {
@@ -743,6 +776,7 @@ u32 homelab_state::screen_update(screen_device &screen, bitmap_ind16 &bitmap, co
 		}
 		ma+=m_cols;
 	}
+//	scrupdt = 1;
 	return 0;
 }
 
@@ -802,7 +836,7 @@ printf( "Load address: '%04X' (%d) ok\n", quick_addr, quick_addr );
 printf( "Size: '%04X' (%d) ok\n", quick_length, quick_length );
 printf( "End address: '%04X' (%d) ok\n", quick_end, quick_end );
 
-	    if ( quick_end > 0x7fff ) return std::make_pair( image_error::INVALIDLENGTH, "File too large" );
+	    // if ( quick_end > 0x7fff ) return std::make_pair( image_error::INVALIDLENGTH, "File too large" );
 
 	    for ( int i = 0; i < quick_length; i++ ) {
 		unsigned j = (quick_addr + i);
