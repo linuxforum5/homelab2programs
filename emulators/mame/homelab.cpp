@@ -292,20 +292,19 @@ u8 homelab3_state::exxx_r(offs_t offset)
 // keys E800-E813 but E810-E813 are not connected
 // cassin E883
 // speaker/cass toggle E880, E802
-	if (offset == 0x83)
-		return (m_cass->input() > 0.03);
-	else
-	if (offset == 0x80)
+	if (offset & 0x80)
 	{
-		m_speaker->level_w(0);
+		m_speaker->level_w(1);
 		m_cass->output(-1.0);
 	}
 	else
-	if (offset == 0x02)
 	{
-		m_speaker->level_w(1);
+		m_speaker->level_w(0);
 		m_cass->output(+1.0);
 	}
+
+	if (offset == 0x83)
+		return (m_cass->input() > 0.03);
 
 	u8 data = 0xff;
 	if (offset < 0x10)
