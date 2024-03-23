@@ -306,11 +306,8 @@ u8 homelab3_state::exxx_r(offs_t offset)
 	if (offset == 0x83)
 		return (m_cass->input() > 0.03);
 
-	u8 data = 0xff;
-	if (offset < 0x10)
-		data = m_io_keyboard[offset]->read();
-
-	return data;
+        offs_t masked_offset = offset & 0x1f;
+	return masked_offset < 0x10 ? m_io_keyboard[masked_offset]->read() : 0xff;
 }
 
 /* Address maps */
