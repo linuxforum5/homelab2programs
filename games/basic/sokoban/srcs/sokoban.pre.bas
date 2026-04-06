@@ -80,7 +80,7 @@
 
 70 DIM KR(5) : KR(0)=32 : KR(1)=119 : KR(2)=121 : KR(3)=101 : KR(4)=251 : KR(5)=99   '"! A megjelenítendő karakterek: 0-üres, 1-doboz, 2-cél, 3-doboz a célon, 4-fal, 5-játékos
 80 POKE 16384,132,29 : HN=1                                                          '"! USR függvényt a hangkeltésre állítjuk '"! Hang engedélyezése
-90 IF LV = 1 THEN GOTO 200                                                           ." Ha nem az első szinttel indítunk, akkor restore
+90 IF LV = 1 THEN GOTO 200                                                           '"! Ha nem az első szinttel indítunk, akkor restore
 
 100 RESTORE                                                                          '"! Az aktuális szint újrakezdése, vagy a megadott szint indítáda. LV a szint értéke
 110 IF LV = 1 THEN GOTO 200

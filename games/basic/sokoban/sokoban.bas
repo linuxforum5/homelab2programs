@@ -1,12 +1,12 @@
-1 LV =  1 : GOTO 70 '""""""""""""""""""""
-2 LV =  2 : GOTO 70 '" COPYRIGHT        "
-3 LV =  3 : GOTO 70 '" PRINCZ LASZLO    "
-4 LV =  4 : GOTO 70 '" HUNGARY          "
-5 LV =  5 : GOTO 70 '" LASZLO@PRINCZ.HU "
-6 LV =  6 : GOTO 70 '" 2023 V.: 1.0     "
-7 LV =  7 : GOTO 70 '" GPL 3            "
-8 LV =  8 : GOTO 70 '""""""""""""""""""""
-9 LV =  9 : GOTO 70
+1  LV =  1 : GOTO 70 '""""""""""""""""""""
+2  LV =  2 : GOTO 70 '" COPYRIGHT        "
+3  LV =  3 : GOTO 70 '" PRINCZ LASZLO    "
+4  LV =  4 : GOTO 70 '" HUNGARY          "
+5  LV =  5 : GOTO 70 '" LASZLO@PRINCZ.HU "
+6  LV =  6 : GOTO 70 '" 2023 V.: 1.0     "
+7  LV =  7 : GOTO 70 '" GPL 3            "
+8  LV =  8 : GOTO 70 '""""""""""""""""""""
+9  LV =  9 : GOTO 70
 10 LV = 10 : GOTO 70
 11 LV = 11 : GOTO 70
 12 LV = 12 : GOTO 70
@@ -60,7 +60,7 @@
 60 LV = 60 : GOTO 70
 70 DIM KR(5) : KR(0)=32 : KR(1)=119 : KR(2)=121 : KR(3)=101 : KR(4)=251 : KR(5)=99
 80 POKE 16384,132,29 : HN=1
-90 IF LV = 1 THEN GOTO 200                                                           ." Ha nem az első szinttel indítunk, akkor restore
+90 IF LV = 1 THEN GOTO 200
 100 RESTORE
 110 IF LV = 1 THEN GOTO 200
 120 READ SL,SX,SY
@@ -96,14 +96,14 @@
 470 RM = RM + 40
 480 NEXT SR
 490 BG = 32 : LK = 0 : GOTO 800
-500 KE = PEEK( 15087 ) : KK = PEEK( 15071 ) : KH = PEEK( 15039 ) : IF HN = 1 AND TC > 1 THEN A=USR(TC)
+500 KE = PEEK( 14911 ) : KK = PEEK( 14912 ) : IF HN = 1 AND TC > 1 THEN A=USR(TC)
 510 TC = 0
 520 IF KK = 127 THEN IF LK<>1 THEN LK=1 : NP = PL-1 : PK = PL-2 : GOTO 600
-530 IF KH = 254 THEN IF LK<>2 THEN LK=2 : NP = PL+1 : PK = PL+2 : GOTO 600
-540 IF KH = 253 THEN IF LK<>3 THEN LK=3 : NP = PL-40: PK = PL-80: GOTO 600
-550 IF KE = 253 THEN IF LK<>4 THEN LK=4 : NP = PL+40: PK = PL+80: GOTO 600
-560 IF KH = 251 THEN GOTO 100
-570 IF KH = 223 THEN GOTO 1100
+530 IF KE = 254 THEN IF LK<>2 THEN LK=2 : NP = PL+1 : PK = PL+2 : GOTO 600
+540 IF KE = 253 THEN IF LK<>3 THEN LK=3 : NP = PL-40: PK = PL-80: GOTO 600
+550 IF KK = 253 THEN IF LK<>4 THEN LK=4 : NP = PL+40: PK = PL+80: GOTO 600
+560 IF KE = 251 THEN GOTO 100
+570 IF KE = 223 THEN GOTO 1100
 580 IF KK = 254 THEN IF LK<>5 THEN LK=5 : HN = 1 - HN : GOTO 800
 590 LK=0 : GOTO 500
 600 NV = PEEK(NP) : VK = PEEK(PK)
@@ -142,6 +142,7 @@
 1150 IF LC > EC THEN GOSUB 1400
 1160 PL = EP : EP = 0 : ST = ST-1 : LC = EC
 1170 GOTO 800
+1200 
 1300 TC = 1 : IF HN = 1 THEN A=USR(50+256*200) : A=USR(70+256*200) : A=USR(90+256*200)
 1310 RETURN
 1400 TC = 1 : IF HN = 1 THEN A=USR(90+256*200) : A=USR(70+256*200) : A=USR(50+256*200)

@@ -1,7 +1,8 @@
 #!/bin/sh
 # Create sokoban.bas, sokoban.htp and sokoban.wav files
 NAME=sokoban
-cat srcs/$NAME.pre.bas > $NAME.bas
+# cat srcs/$NAME.pre.bas | sed "s/ *'\"\!.*//; /^\s*$/d; s/\\s+$//g" > $NAME.bas
+cat srcs/$NAME.pre.bas | sed "s/ *'\"\!.*//; /^\s*$/d" > $NAME.bas
 i=0
 while [ $i -ne 60 ] ; do
     i=$(($i+1))
